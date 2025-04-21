@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <string.h>
+
+void main() {
+    char text[100], pattern[100];
+    int i, j, n, m, flag = 0;
+
+    printf("Enter the text: ");
+    fgets(text, sizeof(text), stdin);  // Use fgets instead of gets
+    printf("Enter the pattern: ");
+    fgets(pattern, sizeof(pattern), stdin);  // Use fgets instead of gets
+
+    // Remove trailing newline characters if present
+    if (text[strlen(text) - 1] == '\n') text[strlen(text) - 1] = '\0';
+    if (pattern[strlen(pattern) - 1] == '\n') pattern[strlen(pattern) - 1] = '\0';
+
+    n = strlen(text);
+    m = strlen(pattern);
+
+    // Naive string matching
+    for (i = 0; i <= n - m; i++) {
+        for (j = 0; j < m; j++) {
+            if (text[i + j] != pattern[j])
+                break;
+        }
+        if (j == m) {
+            printf("✅ Pattern found at position: %d to %d: \"", i, i + m - 1);
+            for (int k = i; k < i + m; k++)
+                putchar(text[k]);
+            printf("\"\n");
+            flag = 1;
+        }
+    }
+
+    if (flag == 0)
+        printf("❌ Pattern not found.\n");
+}
+
+op-
+Enter the text: This is a simple text.
+Enter the pattern: simple
+✅ Pattern found at position: 10 to 15: "simple"
