@@ -1,0 +1,55 @@
+#include <stdio.h>
+
+int main() {
+    int a[100], n, i, j, temp, presentElement;
+    
+    
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    
+    printf("Enter %d elements: ", n);
+    for (i = 0; i < n; i++) {
+        scanf("%d", &a[i]);
+    }
+
+    printf("Sorting using Selection Sort algorithm...\n");
+
+    
+    for (i = 0; i < n - 1; i++) {
+        presentElement = i;
+        for (j = i + 1; j < n; j++) {  
+            if (a[presentElement] > a[j]) {
+                presentElement = j;
+            }
+        }
+       
+        if (presentElement != i) {
+            temp = a[i];
+            a[i] = a[presentElement];
+            a[presentElement] = temp;
+        }
+    }
+
+   
+    printf("Sorted array: ");
+    for (i = 0; i < n; i++) {
+        printf("%d ", a[i]);  
+    }
+    printf("\n");  
+
+    return 0;
+}
+
+
+
+
+op-
+Enter the number of elements: 5
+Enter 5 elements: 12
+35
+6
+88
+67
+Sorting using Selection Sort algorithm...
+Sorted array: 6 12 35 67 88 
