@@ -1,0 +1,95 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void display(int *arr, int size) {
+    for (int i = 0; i < size; i++) {
+        if (arr[i] != 0) {
+            printf("P%d ", arr[i]);
+        }
+    }
+    printf("\n");
+}
+
+void bubbleSortDescending(int profit[], int job[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (profit[j] < profit[j + 1]) {
+                int tempProfit = profit[j];
+                profit[j] = profit[j + 1];
+                profit[j + 1] = tempProfit;
+
+                int tempJob = job[j];
+                job[j] = job[j + 1];
+                job[j + 1] = tempJob;
+            }
+        }
+    }
+}
+
+int searchEmpty(int *arr, int deadline) {
+    for (int i = deadline - 1; i >= 0; i--) {
+        if (arr[i] == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void jobseq(int *profit, int *job, int *final, int size) {
+    int profitFinal = 0;
+    for (int i = 0; i < size; i++) {
+        int search = searchEmpty(final, job[i]);
+        if (search != -1) {
+            final[search] = i + 1;
+            profitFinal += profit[i];
+        }
+    }
+
+    printf("\nOptimal sequence: ");
+    display(final, size);
+    printf("Maximum Profit: %d\n", profitFinal);
+}
+
+void inputs(int *profit, int *job, int size) {
+    for (int i = 0; i < size; i++) {
+        printf("Enter profit and deadline for job %d: ", i + 1);
+        scanf("%d %d", &profit[i], &job[i]);
+    }
+}
+
+int main() {
+    int size;
+    printf("Enter the number of jobs: ");
+    scanf("%d", &size);
+
+    int *profit = (int *)malloc(sizeof(int) * size);
+    int *job = (int *)malloc(sizeof(int) * size);
+    int *final = (int *)calloc(size, sizeof(int)); // initializes to 0
+
+    if (profit == NULL || job == NULL || final == NULL) {
+        printf("Memory allocation failed.\n");
+        return 1;
+    }
+
+    inputs(profit, job, size);
+    bubbleSortDescending(profit, job, size);
+    jobseq(profit, job, final, size);
+
+    free(profit);
+    free(job);
+    free(final);
+
+    return 0;
+}
+
+
+op-Enter the number of jobs: 5
+Enter profit and deadline for job 1: 12
+45
+Enter profit and deadline for job 2: 34 45
+Enter profit and deadline for job 3: 36 46
+Enter profit and deadline for job 4: 65 45
+Enter profit and deadline for job 5: 27 39
+
+Optimal sequence: 
+Maximum Profit: 174
